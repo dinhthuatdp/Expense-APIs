@@ -72,6 +72,7 @@ builder.Services.AddSwaggerGen(options =>
 
 // DI
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<CurrentUser>();
 
 var app = builder.Build();
 

@@ -14,7 +14,6 @@ namespace JwtIdentityLib.Jwt
     {
         #region ---- Variables ----
         private readonly IConfiguration _configuration;
-        private const string ID = "id";
         #endregion
 
         #region ---- Constructors ----
@@ -77,7 +76,7 @@ namespace JwtIdentityLib.Jwt
                 }, out SecurityToken validatedToken);
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
-                var userId = jwtToken.Claims.FirstOrDefault(x => x.Type == ID)?.Value?.ToString();
+                var userId = jwtToken.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value?.ToString();
 
                 // return user id from JWT token if validation successful
                 return userId;

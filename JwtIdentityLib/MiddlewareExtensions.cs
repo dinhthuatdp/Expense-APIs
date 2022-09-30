@@ -1,6 +1,6 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using JwtIdentityLib.Constants;
+using JwtIdentityLib.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -12,7 +12,7 @@ namespace JwtIdentityLib
     /// <summary>
     /// Middleware extensions.
     /// </summary>
-    public static class MiddlewareExtensions
+    public static class JwtExtensions
     {
         #region ---- Public methods ----
         /// <summary>
@@ -45,6 +45,7 @@ namespace JwtIdentityLib
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration[JwtConst.SECRET]))
                 };
             });
+            builder.Services.AddTransient(x => new JwtHelpers(configuration));
 
             return builder;
         }
@@ -59,6 +60,7 @@ namespace JwtIdentityLib
             // Authentication & Authorization
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseMiddleware<JwtMiddleware>();
 
             return app;
         }

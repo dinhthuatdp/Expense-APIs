@@ -14,6 +14,7 @@ namespace JwtIdentityLib.Jwt
     {
         #region ---- Variables ----
         private readonly IConfiguration _configuration;
+        private const string ID = "id";
         #endregion
 
         #region ---- Constructors ----
@@ -47,6 +48,45 @@ namespace JwtIdentityLib.Jwt
                 );
 
             return token;
+        }
+
+        /// <summary>
+        /// Validate token, if valid => return UserID else return null.
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public string? ValidateToken(string? token)
+        {
+            if (string.IsNullOrEmpty(token))
+                return null;
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_configuration[JwtConst.SECRET]);
+            try
+            {
+                tokenHandler.ValidateToken(token, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidIssuer = _configuration[JwtConst.ISSUER],
+                    ValidAudience = _configuration[JwtConst.AUDIENCE],
+                    // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
+                    ClockSkew = TimeSpan.Zero
+                }, out SecurityToken validatedToken);
+
+                var jwtToken = (JwtSecurityToken)validatedToken;
+                var userId = jwtToken.Claims.FirstOrDefault(x => x.Type == ID)?.Value?.ToString();
+
+                // return user id from JWT token if validation successful
+                return userId;
+            }
+            catch (Exception ex)
+            {
+                // return null if validation fails
+                return null;
+            }
         }
         #endregion
     }

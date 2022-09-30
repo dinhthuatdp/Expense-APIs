@@ -1,0 +1,5 @@
+﻿{
+  "ERR001": "User name or password invalid.",
+  "ERR002": "User already exists!",
+  "ERR003": "User creation failed! Please check user details and try again."
+}

@@ -1,4 +1,5 @@
 ﻿<Properties StartupConfiguration="{0B49A7B2-2879-43C4-9520-16FF9956084F}|Default">
-  <MonoDevelop.Ide.ItemProperties.Expense-Identity FirstBuild="True" />
+  <MonoDevelop.Ide.ItemProperties.Expense-Identity PreferredExecutionTarget="/Applications/Google Chrome.app" />
   <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.JwtIdentityLib FirstBuild="True" />
 </Properties>

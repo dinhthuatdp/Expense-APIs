@@ -1,9 +1,16 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 using Expense_Identity.Database;
+using Expense_Identity.Middlewares;
+using Expense_Identity.Services;
+using Expense_Identity.Services.Interfaces;
+using Expense_Identity.Utils;
+using JwtIdentityLib;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -14,32 +21,39 @@ ConfigurationManager configuration = builder.Configuration;
 // For Entity Framework
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("Identity")));
 
+// Json Location
+builder.Services.AddLocalization();
+builder.Services.AddSingleton<LocalizationMiddleware>();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSingleton<IStringLocalizerFactory, JsonStringLocalizerFactory>();
+
 // For Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-// Adding Authentication
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-// Adding Jwt Bearer
-.AddJwtBearer(options =>
-{
-    options.SaveToken = true;
-    options.RequireHttpsMetadata = false;
-    options.TokenValidationParameters = new TokenValidationParameters()
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidAudience = configuration["JWT:ValidAudience"],
-        ValidIssuer = configuration["JWT:ValidIssuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
-    };
-});
+//// Adding Authentication
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+//})
+//// Adding Jwt Bearer
+//.AddJwtBearer(options =>
+//{
+//    options.SaveToken = true;
+//    options.RequireHttpsMetadata = false;
+//    options.TokenValidationParameters = new TokenValidationParameters()
+//    {
+//        ValidateIssuer = true,
+//        ValidateAudience = true,
+//        ValidAudience = configuration["JWT:ValidAudience"],
+//        ValidIssuer = configuration["JWT:ValidIssuer"],
+//        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
+//    };
+//});
+builder.AddJwtIdentity();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -78,6 +92,9 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+// DI
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -89,9 +106,18 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+var options = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(new CultureInfo("en-US"))
+};
+app.UseRequestLocalization(options);
+app.UseStaticFiles();
+app.UseMiddleware<LocalizationMiddleware>();
+
 // Authentication & Authorization
-app.UseAuthentication();
-app.UseAuthorization();
+//app.UseAuthentication();
+//app.UseAuthorization();
+app.UseJwtIdentity();
 
 app.MapControllers();
 

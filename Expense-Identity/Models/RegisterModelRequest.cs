@@ -2,7 +2,7 @@
 
 namespace Expense_Identity.Models
 {
-    public class RegisterModel
+    public class RegisterModelRequest
     {
         [Required(ErrorMessage = "User Name is required")]
         public string? Username { get; set; }

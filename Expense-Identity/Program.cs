@@ -15,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 ConfigurationManager configuration = builder.Configuration;
+
 // For Entity Framework
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("Identity")));
 
@@ -92,6 +93,10 @@ var options = new RequestLocalizationOptions
 app.UseRequestLocalization(options);
 app.UseStaticFiles();
 app.UseMiddleware<LocalizationMiddleware>();
+
+app.UseCors(x => x.AllowAnyHeader()
+      .AllowAnyMethod()
+      .WithOrigins("http://localhost:3000"));
 
 // Authentication & Authorization
 //app.UseAuthentication();

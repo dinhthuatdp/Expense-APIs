@@ -46,7 +46,7 @@ namespace Expense_Identity.Services
         /// <returns></returns>
         public async Task<Response<LoginModelResponse>> Login(LoginModelRequest model)
         {
-            var user = await _userManager.FindByNameAsync(model.Username);
+            var user = await _userManager.FindByEmailAsync(model.Email);
             string errorMessage;
             if (user is null)
             {

@@ -1,5 +1,51 @@
 ﻿<Properties StartupConfiguration="{0B49A7B2-2879-43C4-9520-16FF9956084F}|Default">
   <MonoDevelop.Ide.ItemProperties.Expense-Identity PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Expense-Identity/Program.cs">
+    <Files>
+      <File FileName="Expense-Identity/appsettings.Development.json" Line="18" Column="1" />
+      <File FileName="Expense-Identity/Database/ApplicationDbContext.cs" Line="15" Column="1" />
+      <File FileName="Expense-Identity/Constants/UserRoles.cs" Line="6" Column="33" />
+      <File FileName="Expense-Identity/Models/Response.cs" Line="12" Column="32" />
+      <File FileName="Expense-Identity/Controllers/AuthenticateController.cs" Line="51" Column="40" />
+      <File FileName="Expense-Identity/Controllers/WeatherForecastController.cs" Line="17" Column="7" />
+      <File FileName="Expense-Identity/appsettings.json" Line="10" Column="1" />
+      <File FileName="Expense-Identity/Program.cs" Line="85" Column="2" />
+      <File FileName="Expense-Identity/Properties/launchSettings.json" Line="15" Column="47" />
+      <File FileName="Expense-Identity/Migrations/20220926073532_Initial.cs" Line="22" Column="18" />
+      <File FileName="Expense-Identity/Migrations/ApplicationDbContextModelSnapshot.cs" Line="11" Column="38" />
+      <File FileName="Expense-Identity/Services/AuthenticationService.cs" Line="44" Column="23" />
+      <File FileName="Expense-Identity/Models/LoginModelResponse.cs" Line="3" Column="18" />
+      <File FileName="Expense-Identity/Services/Interfaces/IAuthenticationService.cs" Line="1" Column="31" />
+      <File FileName="Expense-Identity/Models/RegisterModelResponse.cs" Line="1" Column="1" />
+      <File FileName="Expense-Identity/Controllers/MyControllerBase.cs" Line="8" Column="6" />
+      <File FileName="Expense-Identity/Services/BaseService.cs" Line="59" Column="47" />
+      <File FileName="Expense-Identity/Utils/JsonStringLocalizer.cs" Line="55" Column="18" />
+      <File FileName="Expense-Identity/Utils/JsonStringLocalizerFactory.cs" Line="14" Column="1" />
+      <File FileName="Expense-Identity/Middlewares/LocalizationMiddleware.cs" Line="16" Column="69" />
+      <File FileName="Expense-Identity/Constants/CommonConst.cs" Line="5" Column="57" />
+      <File FileName="Expense-Identity/Resources/Message.vi-VN.json" Line="2" Column="24" />
+      <File FileName="Expense-Identity/Constants/ErrorCode.cs" Line="7" Column="49" />
+      <File FileName="JwtIdentityLib/Jwt/JwtHelpers.cs" Line="63" Column="79" />
+      <File FileName="JwtIdentityLib/Constants/JwtConst.cs" Line="3" Column="33" />
+      <File FileName="JwtIdentityLib/JwtMiddleware.cs" Line="31" Column="20" />
+      <File FileName="Expense-Identity/WeatherForecast.cs" Line="13" Column="19" />
+      <File FileName="Expense-Identity/Utils/CurrentUser.cs" Line="8" Column="29" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Api-expense-management" expanded="True" selected="True" />
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.ItemProperties.JwtIdentityLib FirstBuild="True" />
 </Properties>

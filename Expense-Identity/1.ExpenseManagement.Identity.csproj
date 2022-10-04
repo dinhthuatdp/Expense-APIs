@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Expense_Identity</RootNamespace>
+    <AssemblyName>Expense-Identity</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

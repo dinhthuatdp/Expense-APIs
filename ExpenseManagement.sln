@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 25.0.1703.5
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expense-Identity", "Expense-Identity\Expense-Identity.csproj", "{0B49A7B2-2879-43C4-9520-16FF9956084F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1.ExpenseManagement.Expense-Identity", "Expense-Identity\1.ExpenseManagement.Expense-Identity.csproj", "{0B49A7B2-2879-43C4-9520-16FF9956084F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JwtIdentityLib", "JwtIdentityLib\JwtIdentityLib.csproj", "{0CD2315F-1538-4BC6-9C5D-3CA89A5445E6}"
 EndProject

@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
+using CommonLib.Extensions;
+using CommonLib.StringLocalizer;
 using Expense_Identity.Database;
-using Expense_Identity.Middlewares;
 using Expense_Identity.Services;
 using Expense_Identity.Services.Interfaces;
 using Expense_Identity.Utils;
@@ -20,10 +21,9 @@ ConfigurationManager configuration = builder.Configuration;
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("Identity")));
 
 // Json Location
-builder.Services.AddLocalization();
-builder.Services.AddSingleton<LocalizationMiddleware>();
+builder.Services.AddJsonLocation();
+
 builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSingleton<IStringLocalizerFactory, JsonStringLocalizerFactory>();
 
 // For Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()

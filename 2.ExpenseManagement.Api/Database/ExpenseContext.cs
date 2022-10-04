@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace _2.ExpenseManagement.Api.Database
 {
+    /// <summary>
+    /// Expense context.
+    /// </summary>
     public class ExpenseContext : DbContext
     {
         #region ---- Variables ----
@@ -14,6 +17,10 @@ namespace _2.ExpenseManagement.Api.Database
         #endregion
 
         #region ---- Constructors ----
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="options"></param>
         public ExpenseContext(DbContextOptions options)
             : base(options)
         {
@@ -21,6 +28,10 @@ namespace _2.ExpenseManagement.Api.Database
         #endregion
 
         #region ---- Other methods ----
+        /// <summary>
+        /// On model creating.
+        /// </summary>
+        /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema("dbo");
@@ -29,6 +40,9 @@ namespace _2.ExpenseManagement.Api.Database
             modelBuilder.ApplyConfiguration(new CategoryConfig());
         }
 
+        /// <summary>
+        /// Category config.
+        /// </summary>
         public class CategoryConfig : IEntityTypeConfiguration<Category>
         {
             public void Configure(EntityTypeBuilder<Category> builder)

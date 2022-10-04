@@ -3,6 +3,10 @@ using _2.ExpenseManagement.Api.Database;
 using _2.ExpenseManagement.Api.Entities;
 using _2.ExpenseManagement.Api.Repositories;
 using _2.ExpenseManagement.Api.Repositories.Interfaces;
+using CommonLib.Middlewares;
+using CommonLib.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace _2.ExpenseManagement.Api.UoW
 {
@@ -40,8 +44,42 @@ namespace _2.ExpenseManagement.Api.UoW
 
         public async Task<int> SaveChangeAsync()
         {
+            UpdateTrackingField();
             var result = await _context.SaveChangesAsync();
             return result;
+        }
+
+        private void UpdateTrackingField()
+        {
+            var entries = _context.ChangeTracker
+                .Entries()
+                .Where(x => x.Entity is BaseEntity &&
+                (x.State == EntityState.Added ||
+                 x.State == EntityState.Modified));
+
+            if (entries != null)
+            {
+                if (CurrentUser.User is null)
+                {
+                    _logger.LogError($"{this.GetType().Name} Error: CurrentUser is null");
+                    return;
+                }
+                BaseEntity baseEntity;
+                foreach (var entityEntry in entries)
+                {
+                    baseEntity = ((BaseEntity)entityEntry.Entity);
+                    if (entityEntry.State == EntityState.Added)
+                    {
+                        baseEntity.CreatedBy = CurrentUser.User.UserName;
+                        baseEntity.CreatedDate = DateTime.UtcNow;
+                    }
+                    else
+                    {
+                        baseEntity.UpdatedBy = CurrentUser.User.UserName;
+                        baseEntity.UpdatedDate = DateTime.UtcNow;
+                    }
+                }
+            }
         }
 
         public IGenericRepository<Category> CategoryRepository

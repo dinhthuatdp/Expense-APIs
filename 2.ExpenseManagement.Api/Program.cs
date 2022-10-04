@@ -3,8 +3,11 @@ using _2.ExpenseManagement.Api.Database;
 using _2.ExpenseManagement.Api.Services.Categories;
 using _2.ExpenseManagement.Api.UoW;
 using CommonLib.Extensions;
+using CommonLib.Middlewares;
+using CommonLib.Services;
 using CommonLib.StringLocalizer;
 using JwtIdentityLib;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -60,7 +63,13 @@ var options = new RequestLocalizationOptions
 };
 app.UseRequestLocalization(options);
 app.UseMiddleware<LocalizationMiddleware>();
+app.UseMiddleware<RequestJwtMiddleware>();
 
+app.UseCors(x => x.AllowAnyHeader()
+      .AllowAnyMethod()
+      .WithOrigins("http://localhost:3000"));
+
+//app.UseJwtIdentity();
 app.UseAuthentication();
 app.UseAuthorization();
 

@@ -17,7 +17,6 @@ namespace Expense_Identity.Services
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly JwtHelpers _jwtHelpers;
-        private readonly IStringLocalizer<AuthenticationService> _stringLocalizer;
         #endregion
 
         #region ----Constructors----
@@ -33,11 +32,10 @@ namespace Expense_Identity.Services
             IConfiguration configuration,
             JwtHelpers jwtHelpers,
             IStringLocalizer<AuthenticationService> stringLocalizer)
+            : base(stringLocalizer)
         {
             _userManager = userManager;
             _roleManager = roleManager;
-            _stringLocalizer = stringLocalizer;
-            //_jwtHelpers = new JwtHelpers(configuration);
             _jwtHelpers = jwtHelpers;
         }
         #endregion

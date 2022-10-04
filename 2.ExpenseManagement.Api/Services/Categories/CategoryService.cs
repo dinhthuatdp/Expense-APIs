@@ -18,7 +18,6 @@ namespace _2.ExpenseManagement.Api.Services.Categories
     {
         #region ---- Variables ----
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IStringLocalizer<CategoryService> _stringLocalizer;
         private const string STR_CATEGORY = "Category";
         private const string STR_CATEGORY_NAME = "Category name";
         private const string STR_REQUEST = "request";
@@ -34,10 +33,9 @@ namespace _2.ExpenseManagement.Api.Services.Categories
         public CategoryService(IUnitOfWork unitOfWork,
             ILogger<CategoryService> logger,
             IStringLocalizer<CategoryService> stringLocalizer)
-            //: base(logger)
+            : base(stringLocalizer)
         {
             _unitOfWork = unitOfWork;
-            _stringLocalizer = stringLocalizer;
         }
         #endregion
 

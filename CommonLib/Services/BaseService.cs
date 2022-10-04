@@ -1,10 +1,18 @@
 ﻿using System;
 using CommonLib.DTOs.ResponseModel;
+using Microsoft.Extensions.Localization;
 
 namespace CommonLib.Services
 {
     public class BaseService
     {
+        public readonly IStringLocalizer _stringLocalizer;
+
+        public BaseService(IStringLocalizer stringLocalizer)
+        {
+            _stringLocalizer = stringLocalizer;
+        }
+
         public Response<T> ToResponse<T>(T? data,
             ResponseStatusCode? responseStatusCode,
             string? message = "")

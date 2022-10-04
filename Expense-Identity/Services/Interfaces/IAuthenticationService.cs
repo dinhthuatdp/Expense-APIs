@@ -1,4 +1,5 @@
-﻿using Expense_Identity.Models;
+﻿using CommonLib.DTOs.ResponseModel;
+using Expense_Identity.Models;
 
 namespace Expense_Identity.Services.Interfaces
 {

@@ -1,4 +1,5 @@
-﻿using Expense_Identity.Models;
+﻿using CommonLib.DTOs.ResponseModel;
+using Expense_Identity.Models;
 using Expense_Identity.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

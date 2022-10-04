@@ -39,11 +39,11 @@ namespace JwtIdentityLib
             JwtHelpers jwtHelpers)
         {
             var token = context.Request.Headers[AUTHORIZATION].FirstOrDefault()?.Split(" ").Last();
-            var userId = jwtHelpers.ValidateToken(token);
-            if (userId != null)
+            var user = jwtHelpers.ValidateToken(token);
+            if (user != null)
             {
                 // attach user to context on successful jwt validation
-                context.Items[USER] = await userManager.FindByIdAsync(userId);
+                context.Items[USER] = await userManager.FindByIdAsync(user.ID.ToString());
             }
 
             await _next(context);

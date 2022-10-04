@@ -54,7 +54,7 @@ namespace JwtIdentityLib.Jwt
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public string? ValidateToken(string? token)
+        public UserModel? ValidateToken(string? token)
         {
             if (string.IsNullOrEmpty(token))
                 return null;
@@ -77,9 +77,14 @@ namespace JwtIdentityLib.Jwt
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 var userId = jwtToken.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value?.ToString();
+                var userName = jwtToken.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value?.ToString();
 
                 // return user id from JWT token if validation successful
-                return userId;
+                return new UserModel
+                {
+                    ID = string.IsNullOrEmpty(userId) ? Guid.Empty : Guid.Parse(userId),
+                    UserName = userName
+                };
             }
             catch (Exception ex)
             {

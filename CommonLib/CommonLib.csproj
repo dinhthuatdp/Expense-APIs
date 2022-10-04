@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="StringLocalizer\" />
+    <None Remove="Microsoft.Extensions.Localization" />
+    <None Remove="Microsoft.Extensions.Caching.Abstractions" />
+    <None Remove="Newtonsoft.Json" />
+    <None Remove="Constants\" />
+    <None Remove="Microsoft.AspNetCore.Http" />
+    <None Remove="Extensions\" />
+    <None Remove="Microsoft.AspNetCore.Localization" />
+    <None Remove="DTOs\" />
+    <None Remove="DTOs\ResponseModel\" />
+    <None Remove="Services\" />
+    <None Remove="Microsoft.AspNetCore.Identity" />
+    <None Remove="Microsoft.Extensions.Identity.Stores" />
+    <None Remove="Middlewares\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="StringLocalizer\" />
+    <Folder Include="Constants\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="DTOs\" />
+    <Folder Include="DTOs\ResponseModel\" />
+    <Folder Include="Services\" />
+    <Folder Include="Middlewares\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Localization" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.9" />
+  </ItemGroup>
+</Project>

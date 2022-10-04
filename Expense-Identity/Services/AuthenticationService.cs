@@ -31,12 +31,14 @@ namespace Expense_Identity.Services
             UserManager<IdentityUser> userManager,
             RoleManager<IdentityRole> roleManager,
             IConfiguration configuration,
+            JwtHelpers jwtHelpers,
             IStringLocalizer<AuthenticationService> stringLocalizer)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _stringLocalizer = stringLocalizer;
-            _jwtHelpers = new JwtHelpers(configuration);
+            //_jwtHelpers = new JwtHelpers(configuration);
+            _jwtHelpers = jwtHelpers;
         }
         #endregion
 

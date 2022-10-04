@@ -19,6 +19,9 @@ namespace _2.ExpenseManagement.Api.Services.Categories
         #region ---- Variables ----
         private readonly IUnitOfWork _unitOfWork;
         private readonly IStringLocalizer<CategoryService> _stringLocalizer;
+        private const string STR_CATEGORY = "Category";
+        private const string STR_CATEGORY_NAME = "Category name";
+        private const string STR_REQUEST = "request";
         #endregion
 
         #region ---- Constructors -----
@@ -55,13 +58,11 @@ namespace _2.ExpenseManagement.Api.Services.Categories
             {
                 messageError = _stringLocalizer[MessageErrorCode.IsExists].ToString();
                 return ToErrorResponse<CategoryAddResponse>(ResponseStatusCode.Error,
-                    string.Format(messageError, "Category name"));
+                    string.Format(messageError, STR_CATEGORY_NAME));
             }
             var model = new Category
             {
-                Name = request.Name,
-                CreatedBy = "Thuat",
-                CreatedDate = DateTime.UtcNow,
+                Name = request.Name
             };
             _unitOfWork.CategoryRepository.Insert(model);
             await _unitOfWork.SaveChangeAsync();
@@ -85,7 +86,7 @@ namespace _2.ExpenseManagement.Api.Services.Categories
             {
                 errorMessage = _stringLocalizer[MessageErrorCode.Required].ToString();
                 return ToErrorResponse<CategoryEditResponse>(ResponseStatusCode.Error,
-                    string.Format(errorMessage, "request"));
+                    string.Format(errorMessage, STR_REQUEST));
             }
             var category = await _unitOfWork.CategoryRepository
                 .GetById(id);
@@ -93,7 +94,7 @@ namespace _2.ExpenseManagement.Api.Services.Categories
             {
                 errorMessage = _stringLocalizer[MessageErrorCode.NotFound].ToString();
                 return ToErrorResponse<CategoryEditResponse>(ResponseStatusCode.Error,
-                    string.Format(errorMessage, "Category"));
+                    string.Format(errorMessage, STR_CATEGORY));
             }
             category.Name = request.Name;
             await _unitOfWork.SaveChangeAsync();

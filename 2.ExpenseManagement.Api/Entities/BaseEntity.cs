@@ -4,7 +4,7 @@ namespace _2.ExpenseManagement.Api.Entities
     /// <summary>
     /// Base Trangking Model.
     /// </summary>
-    public abstract class BaseTracking
+    public abstract class BaseEntity
     {
         public DateTime CreatedDate { get; set; }
 

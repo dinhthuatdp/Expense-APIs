@@ -27,6 +27,13 @@ namespace _2.ExpenseManagement.Api.Services.Categories
         /// <param name="request"></param>
         /// <returns></returns>
         Task<Response<CategoryEditResponse>> Edit(Guid id, CategoryEditRequest request);
+
+        /// <summary>
+        /// Delete category.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<Response<CategoryDeteteResponse>> Delete(Guid id);
     }
 }
 

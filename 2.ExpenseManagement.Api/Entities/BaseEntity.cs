@@ -13,6 +13,8 @@ namespace _2.ExpenseManagement.Api.Entities
         public DateTime? UpdatedDate { get; set; }
 
         public string? UpdatedBy { get; set; }
+
+        public DateTime? DeletedDate { get; set; }
     }
 }
 

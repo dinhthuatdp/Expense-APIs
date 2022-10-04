@@ -79,6 +79,23 @@ namespace _2.ExpenseManagement.Api.Controllers
 
             return result;
         }
+
+        /// <summary>
+        /// Delete category.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<CategoryDeteteResponse>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Route("{id}")]
+        public async Task<Response<CategoryDeteteResponse>> Delete(Guid id)
+        {
+            var result = await _categoryService.Delete(id);
+
+            return result;
+        }
         #endregion
     }
 }

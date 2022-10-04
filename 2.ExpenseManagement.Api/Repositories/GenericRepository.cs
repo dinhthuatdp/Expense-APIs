@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using _2.ExpenseManagement.Api.Database;
+using _2.ExpenseManagement.Api.Entities;
 using _2.ExpenseManagement.Api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,7 +11,7 @@ namespace _2.ExpenseManagement.Api.Repositories
     /// Generic repository.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         #region ---- Variables ----
         private readonly ExpenseContext _expenseContext;
@@ -40,8 +41,14 @@ namespace _2.ExpenseManagement.Api.Repositories
         /// <param name="entity"></param>
         public void Delete(T entity)
         {
-            var result = _expenseContext.Set<T>()
-                .Remove(entity);
+            if (entity is null)
+            {
+                _logger.LogInformation($"{this.GetType().Name} Delete null entity");
+                return;
+            }
+            ((BaseEntity)entity).DeletedDate = DateTime.UtcNow;
+            _expenseContext.Set<T>()
+                 .Update(entity);
         }
 
         /// <summary>
@@ -63,7 +70,8 @@ namespace _2.ExpenseManagement.Api.Repositories
         /// <returns></returns>
         public IQueryable<T> GetAll()
         {
-            var result = _expenseContext.Set<T>();
+            var result = _expenseContext.Set<T>()
+                .Where(x => x.DeletedDate == null);
 
             return result;
         }

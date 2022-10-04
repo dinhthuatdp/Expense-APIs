@@ -123,6 +123,37 @@ namespace _2.ExpenseManagement.Api.Services.Categories
             return ToResponse<List<CategoryListResponse>>(result.ToList(),
                 ResponseStatusCode.Success);
         }
+
+        /// <summary>
+        /// Delete category.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<Response<CategoryDeteteResponse>> Delete(Guid id)
+        {
+            string errorMessage;
+            if (id == Guid.Empty)
+            {
+                errorMessage = _stringLocalizer[MessageErrorCode.Required].ToString();
+                return ToErrorResponse<CategoryDeteteResponse>(ResponseStatusCode.Error,
+                    string.Format(errorMessage, "ID"));
+            }
+            var entity = await _unitOfWork.CategoryRepository
+                .GetById(id);
+            if (entity is null)
+            {
+                errorMessage = _stringLocalizer[MessageErrorCode.NotFound].ToString();
+                return ToErrorResponse<CategoryDeteteResponse>(ResponseStatusCode.Error,
+                    string.Format(errorMessage, STR_CATEGORY));
+            }
+            _unitOfWork.CategoryRepository.Delete(entity);
+            await _unitOfWork.SaveChangeAsync();
+
+            return ToResponse<CategoryDeteteResponse>(new CategoryDeteteResponse
+            {
+                IsSuccess = true
+            }, ResponseStatusCode.Success);
+        }
         #endregion
     }
 }

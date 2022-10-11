@@ -111,6 +111,7 @@ namespace _2.ExpenseManagement.Api.Services.Categories
         public async Task<Response<List<CategoryListResponse>>> GetAll(CategoryListRequest request)
         {
             var data = await _unitOfWork.CategoryRepository.GetAll()
+                .OrderBy(x => x.Name)
                 .ToListAsync();
             var result = data.Select(x => new CategoryListResponse
             {

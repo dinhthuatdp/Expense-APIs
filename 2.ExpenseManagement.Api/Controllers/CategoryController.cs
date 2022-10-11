@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace _2.ExpenseManagement.Api.Controllers
 {
     [ApiController]
-    [Route("categories")]
+    [Route("api/categories")]
     public class CategoryController : MyControllerBase
     {
         #region ---- Variables ----

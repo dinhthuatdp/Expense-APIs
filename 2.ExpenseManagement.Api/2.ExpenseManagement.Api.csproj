@@ -41,6 +41,7 @@
     <None Remove="Resources\" />
     <None Remove="Contants\" />
     <None Remove="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+    <None Remove="Database\Configurations\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entities\" />
@@ -53,6 +54,7 @@
     <Folder Include="DTOs\Categories\" />
     <Folder Include="Resources\" />
     <Folder Include="Contants\" />
+    <Folder Include="Database\Configurations\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonLib\CommonLib.csproj">

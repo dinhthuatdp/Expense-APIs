@@ -1,7 +1,7 @@
 ﻿using System;
 namespace _2.ExpenseManagement.Api.Entities
 {
-    public class EntityType
+    public class EntityType : BaseEntity
     {
         public Guid ID { get; set; }
 

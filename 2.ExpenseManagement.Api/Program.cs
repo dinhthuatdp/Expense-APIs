@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using _2.ExpenseManagement.Api.Database;
 using _2.ExpenseManagement.Api.Services.Categories;
+using _2.ExpenseManagement.Api.Services.ExpenseTypes;
 using _2.ExpenseManagement.Api.UoW;
 using CommonLib.Extensions;
 using CommonLib.Middlewares;
@@ -45,6 +46,7 @@ builder.Services.AddSwaggerGen();
 // Register DI
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IExpenseTypeService, ExpenseTypeService>();
 
 var app = builder.Build();
 

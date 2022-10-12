@@ -42,6 +42,9 @@
     <None Remove="Contants\" />
     <None Remove="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
     <None Remove="Database\Configurations\" />
+    <None Remove="Services\ExpenseTypes\" />
+    <None Remove="DTOs\ExpenseTypes\" />
+    <None Remove="Common\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entities\" />
@@ -55,6 +58,9 @@
     <Folder Include="Resources\" />
     <Folder Include="Contants\" />
     <Folder Include="Database\Configurations\" />
+    <Folder Include="Services\ExpenseTypes\" />
+    <Folder Include="DTOs\ExpenseTypes\" />
+    <Folder Include="Common\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonLib\CommonLib.csproj">

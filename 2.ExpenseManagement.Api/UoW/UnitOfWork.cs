@@ -16,6 +16,7 @@ namespace _2.ExpenseManagement.Api.UoW
         private readonly ILogger<UnitOfWork> _logger;
         private bool _disposed = false;
         private IGenericRepository<Category>? categoryRepository;
+        private IGenericRepository<EntityType>? entityTypeRepository;
 
         public UnitOfWork(ExpenseContext context,
             ILogger<UnitOfWork> logger)
@@ -91,6 +92,18 @@ namespace _2.ExpenseManagement.Api.UoW
                     categoryRepository = new GenericRepository<Category>(_context, _logger);
                 }
                 return categoryRepository;
+            }
+        }
+
+        public IGenericRepository<EntityType> EntityTypeRepository
+        {
+            get
+            {
+                if (this.entityTypeRepository is null)
+                {
+                    entityTypeRepository = new GenericRepository<EntityType>(_context, _logger);
+                }
+                return entityTypeRepository;
             }
         }
     }

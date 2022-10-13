@@ -9,6 +9,9 @@ namespace _2.ExpenseManagement.Api.DTOs.Expense
         public Guid? TypeID { get; set; }
 
         [Required]
+        public Guid? CategoryID { get; set; }
+
+        [Required]
         public decimal? Cost { get; set; }
 
         [Required]

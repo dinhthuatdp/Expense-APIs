@@ -56,11 +56,12 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
         public async Task<Response<ExpenseAddResponse>> Add(ExpenseAddRequest request)
         {
             if (request.Cost is null ||
-                request.TypeID is null)
+                request.TypeID is null ||
+                request.CategoryID is null)
             {
-                _logger.LogError("Cost or TypeID is required", request);
+                _logger.LogError("Cost/TypeID/CategoryID is required", request);
                 return ToErrorResponse<ExpenseAddResponse>(ResponseStatusCode.Error,
-                    "Cost or TypeID is required");
+                    "Cost/TypeID/CategoryID is required");
             }
             var expense = new Expense
             {
@@ -68,6 +69,7 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
                 Date = request.Date,
                 Description = request.Description,
                 TypeID = request.TypeID.Value,
+                CategoryID = request.CategoryID.Value
             };
             _unitOfWork.ExpenseRepository
                 .Insert(expense);

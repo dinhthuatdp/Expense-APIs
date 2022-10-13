@@ -13,7 +13,11 @@ namespace _2.ExpenseManagement.Api.Entities
 
         public Guid TypeID { get; set; }
 
+        public Guid CategoryID { get; set; }
+
         public virtual EntityType? Type { get; private set; }
+
+        public virtual Category? Category { get; private set; }
 
         public virtual ICollection<Attachment>? Attachments { get; set; }
     }

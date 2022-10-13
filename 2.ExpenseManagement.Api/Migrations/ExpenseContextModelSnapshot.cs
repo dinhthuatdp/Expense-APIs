@@ -135,6 +135,9 @@ namespace _2.ExpenseManagement.Api.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWID()");
 
+                    b.Property<Guid>("CategoryID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("Cost")
                         .HasColumnType("decimal(18,2)");
 
@@ -164,6 +167,8 @@ namespace _2.ExpenseManagement.Api.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("CategoryID");
+
                     b.HasIndex("TypeID");
 
                     b.ToTable("Expense", "dbo");
@@ -182,13 +187,26 @@ namespace _2.ExpenseManagement.Api.Migrations
 
             modelBuilder.Entity("_2.ExpenseManagement.Api.Entities.Expense", b =>
                 {
+                    b.HasOne("_2.ExpenseManagement.Api.Entities.Category", "Category")
+                        .WithMany("Expenses")
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("_2.ExpenseManagement.Api.Entities.EntityType", "Type")
                         .WithMany("Expenses")
                         .HasForeignKey("TypeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Category");
+
                     b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("_2.ExpenseManagement.Api.Entities.Category", b =>
+                {
+                    b.Navigation("Expenses");
                 });
 
             modelBuilder.Entity("_2.ExpenseManagement.Api.Entities.EntityType", b =>

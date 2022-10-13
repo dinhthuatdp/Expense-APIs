@@ -16,6 +16,9 @@ namespace _2.ExpenseManagement.Api.Database.Configurations
             builder.HasOne<EntityType>(x => x.Type)
                 .WithMany(x => x.Expenses)
                 .HasForeignKey(x => x.TypeID);
+            builder.HasOne<Category>(x => x.Category)
+                .WithMany(x => x.Expenses)
+                .HasForeignKey(x => x.CategoryID);
         }
     }
 }

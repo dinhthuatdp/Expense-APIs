@@ -36,6 +36,12 @@ namespace _2.ExpenseManagement.Api.Repositories.Interfaces
         void Insert(T obj);
 
         /// <summary>
+        /// Insert multiple.
+        /// </summary>
+        /// <param name="entities"></param>
+        Task InsertRange(IEnumerable<T> entities);
+
+        /// <summary>
         /// Update.
         /// </summary>
         /// <param name="obj"></param>

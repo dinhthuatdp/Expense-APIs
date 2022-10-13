@@ -23,6 +23,43 @@ namespace _2.ExpenseManagement.Api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("_2.ExpenseManagement.Api.Entities.Attachment", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ExpenseID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ExpenseID");
+
+                    b.ToTable("Attachment", "dbo");
+                });
+
             modelBuilder.Entity("_2.ExpenseManagement.Api.Entities.Category", b =>
                 {
                     b.Property<Guid>("ID")
@@ -89,6 +126,79 @@ namespace _2.ExpenseManagement.Api.Migrations
                         .HasFilter("[Name] IS NOT NULL AND [Type] IS NOT NULL");
 
                     b.ToTable("EntityType", "dbo");
+                });
+
+            modelBuilder.Entity("_2.ExpenseManagement.Api.Entities.Expense", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<decimal>("Cost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("TypeID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("TypeID");
+
+                    b.ToTable("Expense", "dbo");
+                });
+
+            modelBuilder.Entity("_2.ExpenseManagement.Api.Entities.Attachment", b =>
+                {
+                    b.HasOne("_2.ExpenseManagement.Api.Entities.Expense", "Expense")
+                        .WithMany("Attachments")
+                        .HasForeignKey("ExpenseID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Expense");
+                });
+
+            modelBuilder.Entity("_2.ExpenseManagement.Api.Entities.Expense", b =>
+                {
+                    b.HasOne("_2.ExpenseManagement.Api.Entities.EntityType", "Type")
+                        .WithMany("Expenses")
+                        .HasForeignKey("TypeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("_2.ExpenseManagement.Api.Entities.EntityType", b =>
+                {
+                    b.Navigation("Expenses");
+                });
+
+            modelBuilder.Entity("_2.ExpenseManagement.Api.Entities.Expense", b =>
+                {
+                    b.Navigation("Attachments");
                 });
 #pragma warning restore 612, 618
         }

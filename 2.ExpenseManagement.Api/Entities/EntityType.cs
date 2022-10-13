@@ -8,6 +8,8 @@ namespace _2.ExpenseManagement.Api.Entities
         public string? Name { get; set; }
 
         public string? Type { get; set; }
+
+        public virtual ICollection<Expense>? Expenses { get; set; }
     }
 }
 

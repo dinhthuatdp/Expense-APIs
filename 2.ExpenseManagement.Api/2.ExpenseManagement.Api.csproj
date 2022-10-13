@@ -45,6 +45,12 @@
     <None Remove="Services\ExpenseTypes\" />
     <None Remove="DTOs\ExpenseTypes\" />
     <None Remove="Common\" />
+    <None Remove="DTOs\File\" />
+    <None Remove="Services\File\" />
+    <None Remove="DTOs\Expense\" />
+    <None Remove="Services\Expenses\" />
+    <None Remove="Services\Attachments\" />
+    <None Remove="DTOs\Attachments\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entities\" />
@@ -61,6 +67,12 @@
     <Folder Include="Services\ExpenseTypes\" />
     <Folder Include="DTOs\ExpenseTypes\" />
     <Folder Include="Common\" />
+    <Folder Include="DTOs\File\" />
+    <Folder Include="Services\File\" />
+    <Folder Include="DTOs\Expense\" />
+    <Folder Include="Services\Expenses\" />
+    <Folder Include="Services\Attachments\" />
+    <Folder Include="DTOs\Attachments\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonLib\CommonLib.csproj">

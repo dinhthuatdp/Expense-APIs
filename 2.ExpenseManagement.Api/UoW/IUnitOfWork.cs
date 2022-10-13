@@ -21,9 +21,19 @@ namespace _2.ExpenseManagement.Api.UoW
         IGenericRepository<Category> CategoryRepository { get; }
 
         /// <summary>
-        /// Entity Type Repository.
+        /// Entity Type repository.
         /// </summary>
         IGenericRepository<EntityType> EntityTypeRepository { get; }
+
+        /// <summary>
+        /// Attachment repository.
+        /// </summary>
+        IGenericRepository<Attachment> AttachmentRepository { get; }
+
+        /// <summary>
+        /// Expense repository.
+        /// </summary>
+        IGenericRepository<Expense> ExpenseRepository { get; }
     }
 }
 

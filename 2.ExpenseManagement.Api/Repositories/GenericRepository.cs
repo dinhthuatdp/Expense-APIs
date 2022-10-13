@@ -103,6 +103,18 @@ namespace _2.ExpenseManagement.Api.Repositories
                 .Add(obj);
         }
 
+        public async Task InsertRange(IEnumerable<T> entities)
+        {
+            if (entities is null ||
+                entities.Count() == 0)
+            {
+                _logger.LogInformation($"{this.GetType().Name} InsertRange null entities");
+                return;
+            }
+            await _expenseContext.Set<T>()
+                .AddRangeAsync(entities);
+        }
+
         /// <summary>
         /// Update.
         /// </summary>

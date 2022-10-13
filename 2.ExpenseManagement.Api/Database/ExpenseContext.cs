@@ -40,6 +40,7 @@ namespace _2.ExpenseManagement.Api.Database
             // Entities config.
             modelBuilder.ApplyConfiguration(new CategoryConfig());
             modelBuilder.ApplyConfiguration(new EntityTypeConfig());
+            modelBuilder.ApplyConfiguration(new ExpenseConfig());
         }
         #endregion
     }

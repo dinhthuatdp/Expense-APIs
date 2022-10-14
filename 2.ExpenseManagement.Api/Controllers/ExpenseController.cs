@@ -48,6 +48,17 @@ namespace _2.ExpenseManagement.Api.Controllers
 
             return response;
         }
+
+        [Authorize]
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<ExpenseListResponse>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<Response<ExpenseListResponse>> GetAll([FromQuery] ExpenseListRequest request)
+        {
+            var response = await _expenseService.GetAll(request);
+
+            return response;
+        }
         #endregion
     }
 }

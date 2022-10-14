@@ -15,6 +15,13 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
         /// <param name="request"></param>
         /// <returns></returns>
         Task<Response<ExpenseAddResponse>> Add(ExpenseAddRequest request);
+
+        /// <summary>
+        /// Get all expense of current user.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<Response<ExpenseListResponse>> GetAll(ExpenseListRequest request);
     }
 }
 

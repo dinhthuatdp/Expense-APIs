@@ -7,7 +7,9 @@ using _2.ExpenseManagement.Api.Services.Attachments;
 using _2.ExpenseManagement.Api.Services.File;
 using _2.ExpenseManagement.Api.UoW;
 using CommonLib.DTOs.ResponseModel;
+using CommonLib.Middlewares;
 using CommonLib.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 
 namespace _2.ExpenseManagement.Api.Services.Expenses
@@ -91,6 +93,35 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
             }
             await _unitOfWork.SaveChangeAsync();
             return ToResponse(new ExpenseAddResponse(), ResponseStatusCode.Success);
+        }
+
+        public async Task<Response<ExpenseListResponse>> GetAll(ExpenseListRequest request)
+        {
+            if (CurrentUser.User is null)
+            {
+                return ToErrorResponse<ExpenseListResponse>(ResponseStatusCode.Error,
+                    "Current user not found");
+            }
+            var currentUser = CurrentUser.User;
+            var response = await _unitOfWork.ExpenseRepository
+                .Find(x => x.CreatedBy == currentUser.UserName)
+                .Include(x => x.Category)
+                .Include(x => x.Type)
+                .Select(x => new ExpenseListData
+                {
+                    ID = x.ID,
+                    Category = x.Category == null ? string.Empty : x.Category.Name,
+                    Type = x.Type == null ? string.Empty : x.Type.Name,
+                    CategoryID = x.Category == null ? Guid.Empty : x.Category.ID,
+                    TypeID = x.Type == null ? Guid.Empty : x.Type.ID,
+                    Cost = x.Cost,
+                    Date = x.Date,
+                    Description = x.Description
+                })
+                .ToListAsync();
+
+            return ToResponse(new ExpenseListResponse
+            { Expenses = response }, ResponseStatusCode.Success);
         }
         #endregion
 

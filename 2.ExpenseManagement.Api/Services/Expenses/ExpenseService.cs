@@ -80,7 +80,7 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
             {
                 await _unitOfWork.SaveChangeAsync();
 
-                return ToResponse(new ExpenseAddResponse(), ResponseStatusCode.Success);
+                return ToResponse(new ExpenseAddResponse());
             }
             // Store files to folder.
             var uploadedFiles = await UploadFiles(request.Attachments);
@@ -92,7 +92,7 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
                     "Add Attachments error");
             }
             await _unitOfWork.SaveChangeAsync();
-            return ToResponse(new ExpenseAddResponse(), ResponseStatusCode.Success);
+            return ToResponse(new ExpenseAddResponse());
         }
 
         public async Task<Response<ExpenseListResponse>> GetAll(ExpenseListRequest request)
@@ -121,7 +121,9 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
                 .ToListAsync();
 
             return ToResponse(new ExpenseListResponse
-            { Expenses = response }, ResponseStatusCode.Success);
+            {
+                Expenses = response
+            });
         }
         #endregion
 

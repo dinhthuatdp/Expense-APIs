@@ -49,7 +49,7 @@ namespace _2.ExpenseManagement.Api.Services.ExpenseTypes
             return ToResponse(new ExpenseTypeListResponse
             {
                 ExpenseTypes = response
-            }, ResponseStatusCode.Success);
+            });
 
         }
         #endregion

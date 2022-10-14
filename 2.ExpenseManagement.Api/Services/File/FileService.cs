@@ -88,7 +88,7 @@ namespace _2.ExpenseManagement.Api.Services.File
                 }
             });
 
-            return ToResponse(response, ResponseStatusCode.Success);
+            return await Task.FromResult(ToResponse(response));
         }
         #endregion
     }

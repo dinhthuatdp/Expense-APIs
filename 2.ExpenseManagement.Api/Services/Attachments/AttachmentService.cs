@@ -43,7 +43,7 @@ namespace _2.ExpenseManagement.Api.Services.Attachments
             if (request.Attachments is null ||
                 request.Attachments.Count == 0)
             {
-                return ToResponse(new AttachmentAddResponse(), ResponseStatusCode.Success);
+                return ToResponse(new AttachmentAddResponse());
             }
             var entities = request.Attachments
                 .Select(x => new Attachment
@@ -56,9 +56,7 @@ namespace _2.ExpenseManagement.Api.Services.Attachments
                 .InsertRange(entities);
             await _unitOfWork.SaveChangeAsync();
 
-            return ToResponse(new AttachmentAddResponse
-            {
-            }, ResponseStatusCode.Success);
+            return ToResponse(new AttachmentAddResponse());
         }
 
         /// <summary>
@@ -73,7 +71,7 @@ namespace _2.ExpenseManagement.Api.Services.Attachments
             if (request.Attachments is null ||
                 request.Attachments.Count == 0)
             {
-                return ToResponse(new AttachmentAddResponse(), ResponseStatusCode.Success);
+                return ToResponse(new AttachmentAddResponse());
             }
             var entities = request.Attachments
                 .Select(x => new Attachment
@@ -86,9 +84,7 @@ namespace _2.ExpenseManagement.Api.Services.Attachments
                 .InsertRange(entities);
             await _unitOfWork.SaveChangeAsync();
 
-            return ToResponse(new AttachmentAddResponse
-            {
-            }, ResponseStatusCode.Success);
+            return ToResponse(new AttachmentAddResponse());
         }
         #endregion
     }

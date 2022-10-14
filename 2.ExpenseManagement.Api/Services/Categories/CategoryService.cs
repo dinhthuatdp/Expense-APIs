@@ -68,7 +68,7 @@ namespace _2.ExpenseManagement.Api.Services.Categories
             return ToResponse<CategoryAddResponse>(new CategoryAddResponse
             {
                 Success = true
-            }, ResponseStatusCode.Success);
+            });
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace _2.ExpenseManagement.Api.Services.Categories
             return ToResponse<CategoryEditResponse>(new CategoryEditResponse
             {
                 IsSuccess = true
-            }, ResponseStatusCode.Success);
+            });
         }
 
         /// <summary>
@@ -119,8 +119,7 @@ namespace _2.ExpenseManagement.Api.Services.Categories
                 Name = x.Name
             });
 
-            return ToResponse<List<CategoryListResponse>>(result.ToList(),
-                ResponseStatusCode.Success);
+            return ToResponse<List<CategoryListResponse>>(result.ToList());
         }
 
         /// <summary>
@@ -148,10 +147,10 @@ namespace _2.ExpenseManagement.Api.Services.Categories
             _unitOfWork.CategoryRepository.Delete(entity);
             await _unitOfWork.SaveChangeAsync();
 
-            return ToResponse<CategoryDeteteResponse>(new CategoryDeteteResponse
+            return ToResponse(new CategoryDeteteResponse
             {
                 IsSuccess = true
-            }, ResponseStatusCode.Success);
+            });
         }
         #endregion
     }

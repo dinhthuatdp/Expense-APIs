@@ -87,8 +87,7 @@ namespace Expense_Identity.Services
                 Expiration = token?.ValidTo
             };
 
-            return ToResponse(data,
-                ResponseStatusCode.Success);
+            return ToResponse(data);
         }
 
         /// <summary>
@@ -131,7 +130,7 @@ namespace Expense_Identity.Services
             return ToResponse(new RegisterModelResponse
             {
                 IsSuccess = true
-            }, ResponseStatusCode.Success);
+            });
         }
 
         /// <summary>
@@ -182,7 +181,7 @@ namespace Expense_Identity.Services
             return ToResponse(new RegisterModelResponse
             {
                 IsSuccess = true
-            }, ResponseStatusCode.Success);
+            });
         }
         #endregion
 

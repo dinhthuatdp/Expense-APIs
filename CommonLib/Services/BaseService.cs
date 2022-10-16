@@ -105,7 +105,8 @@ namespace CommonLib.Services
                 {
                     PageNumber = request == null ? 0 : request.PageNumber,
                     PageSize = request == null ? 0 : request.PageSize,
-                    TotalPages = total,
+                    TotalPages = request == null ? 0
+                    : (int)Math.Ceiling((decimal)total / (decimal)request.PageSize),
                     NextPage = nextPageNumber == null ? null
                         : $"{schema}://{host}{path}?pageNumber={nextPageNumber}&pageSize={request?.PageSize}",
                     PreviousPage = prevPageNumber == null ? null

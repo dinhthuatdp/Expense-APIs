@@ -1,11 +1,10 @@
 ﻿using System;
+using CommonLib.DTOs.RequestModel;
+
 namespace _2.ExpenseManagement.Api.DTOs.Categories
 {
-    public class CategoryListRequest
+    public class CategoryListRequest : RequestPagination
     {
-        public CategoryListRequest()
-        {
-        }
     }
 }
 

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Localization;
 using _2.ExpenseManagement.Api.Contants;
 using CommonLib.DTOs.ResponseModel;
 using CommonLib.Services;
+using CommonLib.Extensions;
 
 namespace _2.ExpenseManagement.Api.Services.Categories
 {
@@ -111,16 +112,16 @@ namespace _2.ExpenseManagement.Api.Services.Categories
         /// <returns></returns>
         public async Task<Response<List<CategoryListResponse>>> GetAll(CategoryListRequest request)
         {
-            var data = await _unitOfWork.CategoryRepository.GetAll()
-                .OrderBy(x => x.Name)
-                .ToListAsync();
-            var result = data.Select(x => new CategoryListResponse
-            {
-                ID = x.ID,
-                Name = x.Name
-            });
+            var query = _unitOfWork.CategoryRepository.GetAll()
+                .Select(x => new CategoryListResponse
+                {
+                    ID = x.ID,
+                    Name = x.Name
+                })
+                .OrderBy(x => x.Name);
+            var (data, totalItems) = await query.Paging(request);
 
-            return ToResponse<List<CategoryListResponse>>(result.ToList());
+            return ToPagedResponse<List<CategoryListResponse>>(totalItems, data.ToList(), request);
         }
 
         /// <summary>

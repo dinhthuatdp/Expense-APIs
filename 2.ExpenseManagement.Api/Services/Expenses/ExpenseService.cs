@@ -6,7 +6,9 @@ using _2.ExpenseManagement.Api.Entities;
 using _2.ExpenseManagement.Api.Services.Attachments;
 using _2.ExpenseManagement.Api.Services.File;
 using _2.ExpenseManagement.Api.UoW;
+using CommonLib.DTOs.RequestModel;
 using CommonLib.DTOs.ResponseModel;
+using CommonLib.Extensions;
 using CommonLib.Middlewares;
 using CommonLib.Services;
 using Microsoft.EntityFrameworkCore;
@@ -39,8 +41,9 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
             ILogger<ExpenseService> logger,
             IFileService fileService,
             IAttachmentService attachmentService,
-            IUnitOfWork unitOfWork)
-            : base(stringLocalizer)
+            IUnitOfWork unitOfWork,
+            IHttpContextAccessor httpContextAccessor)
+            : base(stringLocalizer, httpContextAccessor)
         {
             _logger = logger;
             _fileService = fileService;
@@ -103,7 +106,7 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
                     "Current user not found");
             }
             var currentUser = CurrentUser.User;
-            var response = await _unitOfWork.ExpenseRepository
+            var dataQuery = _unitOfWork.ExpenseRepository
                 .Find(x => x.CreatedBy == currentUser.UserName)
                 .Include(x => x.Category)
                 .Include(x => x.Type)
@@ -117,13 +120,14 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
                     Cost = x.Cost,
                     Date = x.Date,
                     Description = x.Description
-                })
-                .ToListAsync();
-
-            return ToResponse(new ExpenseListResponse
+                });
+            var (data, total) = await dataQuery.Paging(request);
+            var response = new ExpenseListResponse
             {
-                Expenses = response
-            });
+                Expenses = data
+            };
+            return ToPagedResponse<ExpenseListResponse>(total
+                , response, request);
         }
         #endregion
 

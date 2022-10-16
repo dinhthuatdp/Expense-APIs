@@ -22,8 +22,9 @@ namespace _2.ExpenseManagement.Api.Services.ExpenseTypes
         /// <param name="unitOfWork"></param>
         /// <param name="stringLocalizer"></param>
         public ExpenseTypeService(IUnitOfWork unitOfWork,
-            IStringLocalizer<ExpenseTypeService> stringLocalizer)
-            : base(stringLocalizer)
+            IStringLocalizer<ExpenseTypeService> stringLocalizer,
+            IHttpContextAccessor httpContextAccessor)
+            : base(stringLocalizer, httpContextAccessor)
         {
             _unitOfWork = unitOfWork;
         }

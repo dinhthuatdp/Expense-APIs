@@ -21,6 +21,8 @@
     <None Remove="Microsoft.AspNetCore.Identity" />
     <None Remove="Microsoft.Extensions.Identity.Stores" />
     <None Remove="Middlewares\" />
+    <None Remove="DTOs\RequestModel\" />
+    <None Remove="Microsoft.EntityFrameworkCore" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="StringLocalizer\" />
@@ -30,6 +32,7 @@
     <Folder Include="DTOs\ResponseModel\" />
     <Folder Include="Services\" />
     <Folder Include="Middlewares\" />
+    <Folder Include="DTOs\RequestModel\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.9" />
@@ -39,5 +42,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Localization" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
   </ItemGroup>
 </Project>

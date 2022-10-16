@@ -32,8 +32,9 @@ namespace _2.ExpenseManagement.Api.Services.Categories
         /// <param name="stringLocalizer"></param>
         public CategoryService(IUnitOfWork unitOfWork,
             ILogger<CategoryService> logger,
-            IStringLocalizer<CategoryService> stringLocalizer)
-            : base(stringLocalizer)
+            IStringLocalizer<CategoryService> stringLocalizer,
+            IHttpContextAccessor httpContextAccessor)
+            : base(stringLocalizer, httpContextAccessor)
         {
             _unitOfWork = unitOfWork;
         }

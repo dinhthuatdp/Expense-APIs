@@ -25,8 +25,9 @@ namespace _2.ExpenseManagement.Api.Services.Attachments
         /// <param name="stringLocalizer"></param>
         /// <param name="unitOfWork"></param>
         public AttachmentService(IStringLocalizer<AttachmentService> stringLocalizer,
-            IUnitOfWork unitOfWork)
-            : base(stringLocalizer)
+            IUnitOfWork unitOfWork,
+            IHttpContextAccessor httpContextAccessor)
+            : base(stringLocalizer, httpContextAccessor)
         {
             _unitOfWork = unitOfWork;
         }

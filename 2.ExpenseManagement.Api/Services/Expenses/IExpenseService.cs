@@ -1,5 +1,6 @@
 ﻿using System;
 using _2.ExpenseManagement.Api.DTOs.Expense;
+using CommonLib.DTOs.RequestModel;
 using CommonLib.DTOs.ResponseModel;
 
 namespace _2.ExpenseManagement.Api.Services.Expenses

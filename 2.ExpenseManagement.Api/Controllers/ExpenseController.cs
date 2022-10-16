@@ -1,6 +1,7 @@
 ﻿using System;
 using _2.ExpenseManagement.Api.DTOs.Expense;
 using _2.ExpenseManagement.Api.Services.Expenses;
+using CommonLib.DTOs.RequestModel;
 using CommonLib.DTOs.ResponseModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

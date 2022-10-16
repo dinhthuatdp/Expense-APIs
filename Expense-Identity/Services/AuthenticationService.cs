@@ -31,8 +31,9 @@ namespace Expense_Identity.Services
             RoleManager<IdentityRole> roleManager,
             IConfiguration configuration,
             JwtHelpers jwtHelpers,
-            IStringLocalizer<AuthenticationService> stringLocalizer)
-            : base(stringLocalizer)
+            IStringLocalizer<AuthenticationService> stringLocalizer,
+            IHttpContextAccessor httpContextAccessor)
+            : base(stringLocalizer, httpContextAccessor)
         {
             _userManager = userManager;
             _roleManager = roleManager;

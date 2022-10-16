@@ -25,8 +25,9 @@ namespace _2.ExpenseManagement.Api.Services.File
         /// <param name="hostingEnvironment"></param>
         public FileService(IStringLocalizer<FileService> stringLocalizer,
             ILogger<FileService> logger,
-            IWebHostEnvironment hostingEnvironment)
-            : base(stringLocalizer)
+            IWebHostEnvironment hostingEnvironment,
+            IHttpContextAccessor httpContextAccessor)
+            : base(stringLocalizer, httpContextAccessor)
         {
             _hostingEnvironment = hostingEnvironment;
             _logger = logger;

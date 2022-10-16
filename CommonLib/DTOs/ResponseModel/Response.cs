@@ -8,6 +8,8 @@ namespace CommonLib.DTOs.ResponseModel
 
         public string? Message { get; set; }
 
+        public Pagination? Pagination { get; set; }
+
         public T? Data { get; set; }
     }
 
@@ -16,6 +18,19 @@ namespace CommonLib.DTOs.ResponseModel
         public ResponseStatusCode StatusCode { get; set; }
 
         public string? Status { get; set; }
+    }
+
+    public class Pagination
+    {
+        public int PageNumber { get; set; }
+
+        public int PageSize { get; set; }
+
+        public int TotalPages { get; set; }
+
+        public string? NextPage { get; set; }
+
+        public string? PreviousPage { get; set; }
     }
 
     public enum ResponseStatusCode

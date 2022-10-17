@@ -120,7 +120,8 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
                     Cost = x.Cost,
                     Date = x.Date,
                     Description = x.Description
-                });
+                })
+                .OrderByDescending(x => x.Date);
             var (data, total) = await dataQuery.Paging(request);
             var response = new ExpenseListResponse
             {

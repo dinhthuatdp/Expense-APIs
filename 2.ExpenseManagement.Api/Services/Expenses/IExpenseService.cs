@@ -30,6 +30,8 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
         /// <param name="id"></param>
         /// <returns></returns>
         Task<Response<ExpenseDetailsResponse>> Get(Guid id);
+
+        Task<Response<ExpenseEditResponse>> Edit(Guid id, ExpenseEditRequest request);
     }
 }
 

@@ -24,6 +24,8 @@ namespace _2.ExpenseManagement.Api.Services.Attachments
         /// <param name="expense"></param>
         /// <returns></returns>
         Task<Response<AttachmentAddResponse>> Add(AttachmentAddRequest request, Expense expense);
+
+        Task<Response<AttachmentEditResponse>> Edit(AttachmentEditRequest request, Expense expense);
     }
 }
 

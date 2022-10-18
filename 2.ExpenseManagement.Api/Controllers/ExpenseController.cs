@@ -72,6 +72,18 @@ namespace _2.ExpenseManagement.Api.Controllers
 
             return response;
         }
+
+        [HttpPut]
+        [Route("{id}")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<ExpenseEditResponse>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<Response<ExpenseEditResponse>> Edit(Guid id, [FromForm] ExpenseEditRequest request)
+        {
+            var response = await _expenseService.Edit(id, request);
+
+            return response;
+        }
         #endregion
     }
 }

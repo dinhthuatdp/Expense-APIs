@@ -142,12 +142,14 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
         public async Task<Response<ExpenseDetailsResponse>> Get(Guid id)
         {
             string messageError;
+#pragma warning disable CS8604 // Possible null reference argument.
             var expense = await _unitOfWork.ExpenseRepository
                 .Find(x => x.ID == id)
                 .Include(x => x.Category)
                 .Include(x => x.Type)
-                .Include(x => x.Attachments)
+                .Include(x => x.Attachments.Where(a => a.DeletedDate == null))
                 .FirstOrDefaultAsync();
+#pragma warning restore CS8604 // Possible null reference argument.
 
             if (expense is null)
             {
@@ -170,6 +172,45 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
                     : expense.Attachments?.Select(x => x.Url),
             });
         }
+
+        public async Task<Response<ExpenseEditResponse>> Edit(Guid id, ExpenseEditRequest request)
+        {
+            string messageError;
+            var expense = await _unitOfWork.ExpenseRepository
+                .GetById(id);
+            if (expense is null)
+            {
+                messageError = _stringLocalizer[MessageErrorCode.NotFound].ToString();
+                return ToErrorResponse<ExpenseEditResponse>(ResponseStatusCode.NotFound,
+                    string.Format(messageError, STR_EXPENSE));
+            }
+
+            expense.CategoryID = request.CategoryID;
+            expense.TypeID = request.TypeID;
+            expense.Date = request.Date;
+            expense.Cost = request.Cost;
+            expense.Description = request.Description;
+            // Upload attachments.
+            if (request.Attachments is null ||
+                !request.Attachments.Any())
+            {
+                expense.Attachments = null;
+                await _unitOfWork.SaveChangeAsync();
+                return ToResponse(new ExpenseEditResponse());
+            }
+            // Store files to folder.
+            var uploadedFiles = await UploadFiles(request.Attachments);
+            // Add url stored to db.
+            var attachmentRes = await EditAttachments(uploadedFiles, expense);
+            if (attachmentRes is null)
+            {
+                return ToErrorResponse<ExpenseEditResponse>(ResponseStatusCode.Error,
+                    "Edit Expense Attachments error");
+            }
+
+            return ToResponse(new ExpenseEditResponse());
+        }
+
         #endregion
 
         #region ---- Private methods ----
@@ -234,6 +275,36 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
             }
 
             return new AttachmentAddResponse();
+        }
+        private async Task<AttachmentEditResponse?> EditAttachments(List<FileUploadData>? files
+            , Expense expense)
+        {
+            if (files is null ||
+                expense is null)
+            {
+                return new AttachmentEditResponse();
+            }
+            var attachments = files
+                .Select(x => new AttachmentAddData
+                {
+                    Name = x.OriginFileName,
+                    Url = x.Url
+                })
+                .ToList();
+            var attachmentResonse = await _attachmentService.Edit(new DTOs.Attachments.AttachmentEditRequest
+            {
+                Attachments = attachments
+            }, expense);
+            if (attachmentResonse is null ||
+                !string.IsNullOrEmpty(attachmentResonse.Message) ||
+                (attachmentResonse.Status != null &&
+                attachmentResonse.Status.StatusCode != ResponseStatusCode.Success))
+            {
+                _logger.LogError("Edit Expense Attachment Error", attachmentResonse);
+                return null;
+            }
+
+            return new AttachmentEditResponse();
         }
         #endregion
     }

@@ -6,6 +6,7 @@ using _2.ExpenseManagement.Api.UoW;
 using CommonLib.DTOs.ResponseModel;
 using CommonLib.Extensions;
 using CommonLib.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 
 namespace _2.ExpenseManagement.Api.Services.Attachments
@@ -87,6 +88,40 @@ namespace _2.ExpenseManagement.Api.Services.Attachments
             await _unitOfWork.SaveChangeAsync();
 
             return ToResponse(new AttachmentAddResponse());
+        }
+
+        public async Task<Response<AttachmentEditResponse>> Edit(AttachmentEditRequest request,
+            Expense expense)
+        {
+            if (request.Attachments is null ||
+                request.Attachments.Count == 0)
+            {
+                return ToResponse(new AttachmentEditResponse());
+            }
+            var existedEntities = await _unitOfWork.AttachmentRepository
+                .GetAll()
+                .Where(x => x.ExpenseID == expense.ID)
+                .ToListAsync();
+            // Delete existed attachments.
+            if (existedEntities != null)
+            {
+                existedEntities.ForEach(x =>
+                {
+                    x.DeletedDate = DateTime.UtcNow;
+                });
+            }
+            var entities = request.Attachments
+                .Select(x => new Attachment
+                {
+                    Expense = expense,
+                    Name = x.Name,
+                    Url = x.Url?.MapStaticFile(_httpContextAccessor)
+                });
+            await _unitOfWork.AttachmentRepository
+                .InsertRange(entities);
+            await _unitOfWork.SaveChangeAsync();
+
+            return ToResponse(new AttachmentEditResponse());
         }
         #endregion
     }

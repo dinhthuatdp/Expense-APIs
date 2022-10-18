@@ -14,6 +14,7 @@ using JwtIdentityLib;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Serilog;
 
 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
@@ -71,6 +72,17 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+var ss = Path.Combine(Directory.GetCurrentDirectory(), "Files");
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(ss),RequestPath = @"/files"
+});
+
+app.UseDirectoryBrowser(new DirectoryBrowserOptions()
+{
+    FileProvider = new PhysicalFileProvider(ss),
+            RequestPath = new PathString("/files")
+});
 
 var options = new RequestLocalizationOptions
 {

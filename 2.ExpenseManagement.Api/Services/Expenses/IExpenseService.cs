@@ -23,6 +23,13 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
         /// <param name="request"></param>
         /// <returns></returns>
         Task<Response<ExpenseListResponse>> GetAll(ExpenseListRequest request);
+
+        /// <summary>
+        /// Get expense details.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<Response<ExpenseDetailsResponse>> Get(Guid id);
     }
 }
 

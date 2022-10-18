@@ -60,6 +60,18 @@ namespace _2.ExpenseManagement.Api.Controllers
 
             return response;
         }
+
+        [Authorize]
+        [HttpGet]
+        [Route("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<ExpenseDetailsResponse>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<Response<ExpenseDetailsResponse>> Get(Guid id)
+        {
+            var response = await _expenseService.Get(id);
+
+            return response;
+        }
         #endregion
     }
 }

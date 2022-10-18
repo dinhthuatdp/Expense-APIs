@@ -1,5 +1,7 @@
 ﻿using System;
+using _2.ExpenseManagement.Api.Contants;
 using _2.ExpenseManagement.Api.DTOs.Attachments;
+using _2.ExpenseManagement.Api.DTOs.Categories;
 using _2.ExpenseManagement.Api.DTOs.Expense;
 using _2.ExpenseManagement.Api.DTOs.File;
 using _2.ExpenseManagement.Api.Entities;
@@ -26,6 +28,7 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
         private readonly IFileService _fileService;
         private readonly IAttachmentService _attachmentService;
         private readonly IUnitOfWork _unitOfWork;
+        private const string STR_EXPENSE = "Expense";
         #endregion
 
         #region ---- Constructors ----
@@ -105,6 +108,10 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
                 return ToErrorResponse<ExpenseListResponse>(ResponseStatusCode.Error,
                     "Current user not found");
             }
+            var dataSearch = GetSearchParams(request);
+            var filter = ExpressionExtension.BuildFilter<ExpenseListData>(ExpressionMethods.Contains,
+                dataSearch, ExpressionCondition.Or);
+
             var currentUser = CurrentUser.User;
             var dataQuery = _unitOfWork.ExpenseRepository
                 .Find(x => x.CreatedBy == currentUser.UserName)
@@ -121,6 +128,7 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
                     Date = x.Date,
                     Description = x.Description
                 })
+                .Where(filter)
                 .OrderByDescending(x => x.Date);
             var (data, total) = await dataQuery.Paging(request);
             var response = new ExpenseListResponse
@@ -129,6 +137,38 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
             };
             return ToPagedResponse<ExpenseListResponse>(total
                 , response, request);
+        }
+
+        public async Task<Response<ExpenseDetailsResponse>> Get(Guid id)
+        {
+            string messageError;
+            var expense = await _unitOfWork.ExpenseRepository
+                .Find(x => x.ID == id)
+                .Include(x => x.Category)
+                .Include(x => x.Type)
+                .Include(x => x.Attachments)
+                .FirstOrDefaultAsync();
+
+            if (expense is null)
+            {
+                messageError = _stringLocalizer[MessageErrorCode.NotFound].ToString();
+                return ToErrorResponse<ExpenseDetailsResponse>(ResponseStatusCode.NotFound,
+                    string.Format(messageError, STR_EXPENSE));
+            }
+
+            return ToResponse(new ExpenseDetailsResponse
+            {
+                Category = expense.Category?.Name,
+                CategoryID = expense.Category == null ? Guid.Empty : expense.Category.ID,
+                ID = expense.ID,
+                Type = expense.Type?.Name,
+                TypeID = expense.Type == null ? Guid.Empty : expense.Type.ID,
+                Cost = expense.Cost,
+                Date = expense.Date,
+                Description = expense.Description,
+                Attachments = expense.Attachments == null ? null
+                    : expense.Attachments?.Select(x => x.Url),
+            });
         }
         #endregion
 

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Reflection;
+using CommonLib.Extensions;
 
 namespace CommonLib.Services
 {
@@ -13,7 +14,7 @@ namespace CommonLib.Services
     {
         #region ---- Variables ----
         public readonly IStringLocalizer _stringLocalizer;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        public readonly IHttpContextAccessor _httpContextAccessor;
         #endregion
 
         #region ---- Constructors ----
@@ -180,6 +181,22 @@ namespace CommonLib.Services
                     StatusCode = responseStatusCode.Value
                 }
             };
+        }
+
+        public Dictionary<string, string>? GetSearchParams(ISearch search)
+        {
+            if (string.IsNullOrEmpty(search.Search))
+            {
+                return null;
+            }
+            var searchKeyValue = search.Search.Split(";^$");
+            Dictionary<string, string> searchs = new Dictionary<string, string>();
+            foreach (var item in searchKeyValue)
+            {
+                searchs.Add(item.Substring(0, item.IndexOf(":")), item.Substring(item.IndexOf(":") + 1));
+            }
+
+            return searchs;
         }
         #endregion
     }

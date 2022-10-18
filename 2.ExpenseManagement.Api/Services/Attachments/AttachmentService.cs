@@ -4,6 +4,7 @@ using _2.ExpenseManagement.Api.Entities;
 using _2.ExpenseManagement.Api.Repositories.Interfaces;
 using _2.ExpenseManagement.Api.UoW;
 using CommonLib.DTOs.ResponseModel;
+using CommonLib.Extensions;
 using CommonLib.Services;
 using Microsoft.Extensions.Localization;
 
@@ -79,7 +80,7 @@ namespace _2.ExpenseManagement.Api.Services.Attachments
                 {
                     Expense = expense,
                     Name = x.Name,
-                    Url = x.Url
+                    Url = x.Url?.MapStaticFile(_httpContextAccessor)
                 });
             await _unitOfWork.AttachmentRepository
                 .InsertRange(entities);

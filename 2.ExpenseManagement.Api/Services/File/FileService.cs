@@ -1,5 +1,6 @@
 ﻿using System;
 using _2.ExpenseManagement.Api.DTOs.File;
+using CommonLib.DTOs.RequestModel;
 using CommonLib.DTOs.ResponseModel;
 using CommonLib.Services;
 using Microsoft.Extensions.Localization;
@@ -42,6 +43,14 @@ namespace _2.ExpenseManagement.Api.Services.File
         /// <returns></returns>
         public async Task<Response<FileUploadResponse>> Upload(FileUploadRequest fileUpload)
         {
+            //var sss = new UriBuilder
+            //{
+            //    Scheme = _httpContextAccessor.HttpContext.Request.Scheme,
+            //    Host = _httpContextAccessor.HttpContext.Request.Host.Host,
+            //    Port = _httpContextAccessor.HttpContext.Request.Host.Port ?? -1,
+            //    Path = "/Files/"
+            //}.ToString();
+
             var fileDic = "Files";
             string dicPath = Path.Combine(_hostingEnvironment.ContentRootPath, fileDic);
             if (!Directory.Exists(dicPath))
@@ -66,7 +75,7 @@ namespace _2.ExpenseManagement.Api.Services.File
                 {
                     return;
                 }
-                name = $"{file.FileName}__{Guid.NewGuid().ToString()}";
+                name = $"{Guid.NewGuid().ToString()}__{file.FileName}";
                 filePath = Path.Combine(dicPath,
                     name);
                 using (var stream = new FileStream(filePath, FileMode.Create))

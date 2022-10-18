@@ -31,7 +31,20 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
         /// <returns></returns>
         Task<Response<ExpenseDetailsResponse>> Get(Guid id);
 
+        /// <summary>
+        /// Edit expense.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="request"></param>
+        /// <returns></returns>
         Task<Response<ExpenseEditResponse>> Edit(Guid id, ExpenseEditRequest request);
+
+        /// <summary>
+        /// Delete expense.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<Response<ExpenseDeleteResponse>> Delete(Guid id);
     }
 }
 

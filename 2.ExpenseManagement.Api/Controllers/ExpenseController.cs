@@ -84,6 +84,18 @@ namespace _2.ExpenseManagement.Api.Controllers
 
             return response;
         }
+
+        [HttpDelete]
+        [Route("{id}")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<ExpenseDeleteResponse>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<Response<ExpenseDeleteResponse>> Delete(Guid id)
+        {
+            var response = await _expenseService.Delete(id);
+
+            return response;
+        }
         #endregion
     }
 }

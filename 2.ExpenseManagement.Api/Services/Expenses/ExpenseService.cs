@@ -114,7 +114,8 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
 
             var currentUser = CurrentUser.User;
             var dataQuery = _unitOfWork.ExpenseRepository
-                .Find(x => x.CreatedBy == currentUser.UserName)
+                .Find(x => x.CreatedBy == currentUser.UserName &&
+                x.DeletedDate == null)
                 .Include(x => x.Category)
                 .Include(x => x.Type)
                 .Select(x => new ExpenseListData
@@ -173,6 +174,12 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
             });
         }
 
+        /// <summary>
+        /// Edit expense.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public async Task<Response<ExpenseEditResponse>> Edit(Guid id, ExpenseEditRequest request)
         {
             string messageError;
@@ -211,6 +218,23 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
             return ToResponse(new ExpenseEditResponse());
         }
 
+        public async Task<Response<ExpenseDeleteResponse>> Delete(Guid id)
+        {
+            string messageError;
+            var expense = await _unitOfWork.ExpenseRepository
+                .GetById(id);
+            if (expense is null)
+            {
+                messageError = _stringLocalizer[MessageErrorCode.NotFound].ToString();
+                return ToErrorResponse<ExpenseDeleteResponse>(ResponseStatusCode.NotFound,
+                    string.Format(messageError, STR_EXPENSE));
+            }
+            _unitOfWork.ExpenseRepository
+                .Delete(expense);
+            await _unitOfWork.SaveChangeAsync();
+
+            return ToResponse(new ExpenseDeleteResponse());
+        }
         #endregion
 
         #region ---- Private methods ----

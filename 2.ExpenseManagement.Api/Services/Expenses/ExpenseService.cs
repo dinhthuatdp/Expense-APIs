@@ -270,11 +270,11 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
                 });
 #pragma warning disable CS8629 // Nullable value type may be null.
             var commonList = await commonQuery
-                .Where(x => x.Date.Value.Month < today.Month)
+                .Where(x => x.Date.Value.Month <= today.Month)
                 .GroupBy(x => x.Category)
                 .Select(x => new CommonData
                 {
-                    PassAverage = x.Average(c => c.Expense.Cost),
+                    PassAverage = x.Where(c=>c.Date.Value.Month < today.Month).Average(c => c.Expense.Cost),
                     SpentExtra = x.Where(c => c.Date.Value.Month == today.Month).Sum(c => c.Expense.Cost)
                         - x.Average(c => c.Expense.Cost),
                     ThisMonth = x.Where(c => c.Date.Value.Month == today.Month).Sum(c => c.Expense.Cost),

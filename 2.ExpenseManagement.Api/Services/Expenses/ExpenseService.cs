@@ -235,6 +235,60 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
 
             return ToResponse(new ExpenseDeleteResponse());
         }
+
+        public async Task<Response<ExpenseSpentSnapshotResponse>> GetExpenseSnapshot(ExpenseSpentSnapshotRequest request)
+        {
+            var today = DateTime.UtcNow.Date;
+            var month = today.Month;
+            var expenseQuery = _unitOfWork.ExpenseRepository
+                .Find(x => x.DeletedDate == null &&
+                x.Date != null && x.Date.Value.Month == month);
+            var group = await expenseQuery
+                .GroupBy(x => x.Date)
+                .Select(x => new
+                {
+                    Today = x.Key == today ? x.Sum(c => c.Cost) : 0,
+                    Yesterday = x.Key == today.AddDays(-1) ? x.Sum(c => c.Cost) : 0,
+                    Month = x.Sum(c => c.Cost)
+                })
+                .ToListAsync();
+
+            var commonQuery = _unitOfWork.ExpenseRepository
+                .Find(x => x.DeletedDate == null &&
+                    x.Date != null && x.Date.Value.Year == today.Year)
+                .Join(_unitOfWork.CategoryRepository
+                    .Find(x => x.DeletedDate == null &&
+                        x.IsCommon == true),
+                x => x.CategoryID, y => y.ID,
+                (x, y) => new
+                {
+                    Expense = x,
+                    Date = x.Date,
+                    Category = y.Name
+                });
+#pragma warning disable CS8629 // Nullable value type may be null.
+            var commonList = await commonQuery
+                .Where(x => x.Date.Value.Month < today.Month)
+                .GroupBy(x => x.Category)
+                .Select(x => new CommonData
+                {
+                    PassAverage = x.Average(c => c.Expense.Cost),
+                    SpentExtra = x.Average(c => c.Expense.Cost) -
+                        x.Where(c => c.Date.Value.Month == today.Month).Sum(c => c.Expense.Cost),
+                    ThisMonth = x.Where(c => c.Date.Value.Month == today.Month).Sum(c => c.Expense.Cost),
+                    CategoryName = x.Key
+                })
+                .ToListAsync();
+#pragma warning restore CS8629 // Nullable value type may be null.
+
+            return ToResponse(new ExpenseSpentSnapshotResponse
+            {
+                SoFarThisMonth = group.Sum(x => x.Month),
+                Today = group.Sum(x => x.Today),
+                Yesterday = group.Sum(x => x.Yesterday),
+                CommonDatas = commonList
+            });
+        }
         #endregion
 
         #region ---- Private methods ----

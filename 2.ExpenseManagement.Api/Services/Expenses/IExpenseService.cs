@@ -45,6 +45,8 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
         /// <param name="id"></param>
         /// <returns></returns>
         Task<Response<ExpenseDeleteResponse>> Delete(Guid id);
+
+        Task<Response<ExpenseSpentSnapshotResponse>> GetExpenseSnapshot(ExpenseSpentSnapshotRequest request);
     }
 }
 

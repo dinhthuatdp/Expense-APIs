@@ -7,6 +7,8 @@ namespace _2.ExpenseManagement.Api.Entities
 
         public string? Name { get; set; }
 
+        public bool? IsCommon { get; set; }
+
         public virtual ICollection<Expense>? Expenses { get; set; }
     }
 }

@@ -96,6 +96,18 @@ namespace _2.ExpenseManagement.Api.Controllers
 
             return response;
         }
+
+        [HttpGet]
+        [Route("snapshot")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<ExpenseSpentSnapshotResponse>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<Response<ExpenseSpentSnapshotResponse>> GetExpenseSnapshot([FromQuery] ExpenseSpentSnapshotRequest request)
+        {
+            var response = await _expenseService.GetExpenseSnapshot(request);
+
+            return response;
+        }
         #endregion
     }
 }

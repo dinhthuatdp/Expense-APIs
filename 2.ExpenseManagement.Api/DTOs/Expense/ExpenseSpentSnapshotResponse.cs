@@ -9,7 +9,7 @@ namespace _2.ExpenseManagement.Api.DTOs.Expense
 
         public decimal Yesterday { get; set; }
 
-        public IEnumerable<CommonData>? CommonDatas { get; set; }
+        public IEnumerable<CommonData>? CommonData { get; set; }
     }
 
     public class CommonData

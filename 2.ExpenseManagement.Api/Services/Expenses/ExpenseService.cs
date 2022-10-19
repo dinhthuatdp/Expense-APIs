@@ -253,9 +253,11 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
                 })
                 .ToListAsync();
 
+            // The last 10 months.
             var commonQuery = _unitOfWork.ExpenseRepository
                 .Find(x => x.DeletedDate == null &&
-                    x.Date != null && x.Date.Value.Year == today.Year)
+                    x.Date != null && x.Date >= today.AddMonths(-10) &&
+                    x.Date <= today)
                 .Join(_unitOfWork.CategoryRepository
                     .Find(x => x.DeletedDate == null &&
                         x.IsCommon == true),
@@ -273,8 +275,8 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
                 .Select(x => new CommonData
                 {
                     PassAverage = x.Average(c => c.Expense.Cost),
-                    SpentExtra = x.Average(c => c.Expense.Cost) -
-                        x.Where(c => c.Date.Value.Month == today.Month).Sum(c => c.Expense.Cost),
+                    SpentExtra = x.Where(c => c.Date.Value.Month == today.Month).Sum(c => c.Expense.Cost)
+                        - x.Average(c => c.Expense.Cost),
                     ThisMonth = x.Where(c => c.Date.Value.Month == today.Month).Sum(c => c.Expense.Cost),
                     CategoryName = x.Key
                 })
@@ -286,7 +288,7 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
                 SoFarThisMonth = group.Sum(x => x.Month),
                 Today = group.Sum(x => x.Today),
                 Yesterday = group.Sum(x => x.Yesterday),
-                CommonDatas = commonList
+                CommonData = commonList
             });
         }
         #endregion

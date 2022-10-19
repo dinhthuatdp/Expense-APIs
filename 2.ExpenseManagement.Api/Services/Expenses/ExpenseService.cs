@@ -274,10 +274,14 @@ namespace _2.ExpenseManagement.Api.Services.Expenses
                 .GroupBy(x => x.Category)
                 .Select(x => new CommonData
                 {
-                    PassAverage = x.Where(c=>c.Date.Value.Month < today.Month).Average(c => c.Expense.Cost),
-                    SpentExtra = x.Where(c => c.Date.Value.Month == today.Month).Sum(c => c.Expense.Cost)
-                        - x.Average(c => c.Expense.Cost),
+                    PassAverage = x.Where(c=>c.Date.Value.Month < today.Month).Any() ?
+                        x.Where(c => c.Date.Value.Month < today.Month).Average(c => c.Expense.Cost)
+                        : 0,
                     ThisMonth = x.Where(c => c.Date.Value.Month == today.Month).Sum(c => c.Expense.Cost),
+                    SpentExtra = x.Where(c => c.Date.Value.Month == today.Month).Sum(c => c.Expense.Cost)
+                        - (x.Where(c => c.Date.Value.Month < today.Month).Any() ?
+                        x.Where(c => c.Date.Value.Month < today.Month).Average(c => c.Expense.Cost)
+                        : 0),
                     CategoryName = x.Key
                 })
                 .ToListAsync();
